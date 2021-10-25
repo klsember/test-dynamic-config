@@ -1,16 +1,65 @@
 version: 2.1
 
+orbs:
+  python: circleci/python@1.4
+
+parameters:
+    parallelism_enabled:
+        type: env_var_name
+        default: true
+
+commands:
+  timeofday:
+      description: "Determine Parallelism by Time of Day"
+      steps:
+        - run:
+            name: Time of Day
+            command: |
+              currenttime=$(date +%H:%M)
+              if [[ "$currenttime" > "2300" ]] || [[ "$currenttime" < "06:00" ]]; then
+                return true
+              else 
+                return false
+              fi
+
 jobs:
-  say-hello:
+  build-and-test-offtime:
     docker:
-      - image: cimg/base:stable
+      - image: cimg/python:3.8
+    parallelism: 1
     steps:
       - checkout
+      - python/install-packages:
+          pkg-manager: pip
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Run tests
+          command: |
+            mkdir test-results
+            pytest --junitxml=test-results/junit.xml
+  build-and-test-parall:
+    docker:
+      - image: cimg/python:3.8
+    parallelism: 2
+    steps:
+      - checkout
+      - python/install-packages:
+          pkg-manager: pip
+      - run:
+          name: Run tests
+          command: |
+            mkdir test-results
+            pytest --junitxml=test-results/junit.xml
+      - store_test_results:
+          path: test-results
+
+      - store_artifacts:
+          path: test-results
+
 
 workflows:
-  say-hello-workflow:
+  sample:
     jobs:
-      - say-hello
+      - build-and-test-offtime:
+          when: <<pipeline.parameters.parallelism_enabled >>
+      - build-and-test-parall:
+          when: <<pipeline.parameters.parallelism_enabled >> == false
