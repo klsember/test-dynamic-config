@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0-*",
+
+  "testRunner": "xunit",
+
+  "dependencies": {
+    "ServerAbstractions": {
+      "target": "project"
+    },
+    "ServerComponents": {
+      "target": "project"
+    },
+    "TestsCore": {
+      "target": "project"
+    }
+  },
+
+  "frameworks": {
+    "netcoreapp1.1": {
+      "dependencies": {
+        "Microsoft.NETCore.App": {
+          "version": "1.1.0",
+          "type": "platform"
+        }
+      }
+    }
+  }
+}
