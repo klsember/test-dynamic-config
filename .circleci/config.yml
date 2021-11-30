@@ -29,7 +29,7 @@ workflows:
     jobs:
       - building-jobs:
           name: "Building Number1"
-          PARTNER_FLAVOR: "Number1"
+          partner: "Number1"
       - building-jobs:
           name: "Building Number2"
-          PARTNER_FLAVOR: "Number2"
+          partner: "Number2"
