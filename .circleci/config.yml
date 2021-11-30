@@ -1,27 +1,24 @@
 version: 2.1
 
-parameters:
-  partner:
-    type: string
-    default: "Number1"
-  env:
-    type: string
-    default: "one"
-
 orbs:
   python: circleci/python@1.4
 
 
 jobs:
   building-jobs:
-    environment:
-      PARTNER_FLAVOR: << pipeline.parameters.partner >>
+    parameters:
+      partner:
+        type: string
+        default: "Number1"
+      env:
+        type: string
+        default: "one"
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - run: echo "Building app for " << pipeline.parameters.partner >>
-      - run: echo appassemble${PARTNER_FLAVOR}
+      - run: echo "Building app for " << parameters.partner >>
+      - run: echo appassemble${<< parameters.partner >>}
 
 
 workflows:
@@ -30,6 +27,8 @@ workflows:
       - building-jobs:
           name: "Building Number1"
           partner: "Number1"
+          env: "one"
       - building-jobs:
           name: "Building Number2"
           partner: "Number2"
+          env: "two"
