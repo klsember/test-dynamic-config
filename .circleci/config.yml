@@ -9,10 +9,10 @@ parameters:
     default: "./testresults"
   coverage_report_file:
     type: string
-    default: "<< parameters.test-results-path >>/coverage.xml"
+    default: "${<< test-results-path >>}/coverage.xml"
   test_report_file:
     type: string
-    default: "<< parameters.test-results-path >>/pytest-report.xml"
+    default: "${<< test-results-path >>}/pytest-report.xml"
 
 jobs:
   #building-jobs:
