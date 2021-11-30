@@ -3,6 +3,16 @@ version: 2.1
 orbs:
   python: circleci/python@1.4
 
+parameters:
+  test-results-path:
+    type: string
+    default: "./testresults"
+  coverage_report_file:
+    type: string
+    default: ${<< pipeline.parameters.test-results-path >>}\coverage.xml
+  test_report_file:
+    type: string
+    default: ${<< pipeline.parameters.test-results-path >>}\pytest-report.xml
 
 jobs:
   building-jobs:
@@ -19,6 +29,14 @@ jobs:
       - checkout
       - run: echo "Building app for " << parameters.partner >>
       - run: echo appassemble${<< parameters.partner >>}
+  test-parameters:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run: echo << pipeline.parameters.test-results-path >>
+      - run: echo << pipeline.parameters.coverage_report_file >>
+      - run: echo  << pipeline.parameters.test_report_file >>
 
 
 workflows:
@@ -32,3 +50,4 @@ workflows:
           name: "Building Number2"
           partner: "Number2"
           env: "two"
+      - test-parameters
