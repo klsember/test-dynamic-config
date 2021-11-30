@@ -6,7 +6,7 @@ orbs:
 parameters:
   test-results-path:
     type: string
-    default: "./testresults"
+    default: ./testresults
   coverage_report_file:
     type: string
     default: << pipeline.parameters.test-results-path >>\coverage.xml
