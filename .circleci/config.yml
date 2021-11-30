@@ -9,45 +9,45 @@ parameters:
     default: ./testresults
   coverage_report_file:
     type: string
-    default: << pipeline.parameters.test-results-path >>\coverage.xml
+    default: << pipeline.parameters.test-results-path >>/coverage.xml
   test_report_file:
     type: string
-    default: << pipeline.parameters.test-results-path >>\pytest-report.xml
+    default: << pipeline.parameters.test-results-path >>/pytest-report.xml
 
 jobs:
-  building-jobs:
-    parameters:
-      partner:
-        type: string
-        default: "Number1"
-      env:
-        type: string
-        default: "one"
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - run: echo "Building app for " << parameters.partner >>
-      - run: echo appassemble${<< parameters.partner >>}
-  test-parameters:
-    docker:
-      - image: cimg/python:3.8
-    steps:
-      - checkout
-      - run: echo << pipeline.parameters.test-results-path >>
-      - run: echo << pipeline.parameters.coverage_report_file >>
-      - run: echo  << pipeline.parameters.test_report_file >>
+  #building-jobs:
+  #  parameters:
+  #    partner:
+  #      type: string
+  #      default: "Number1"
+  #    env:
+  #      type: string
+  #      default: "one"
+  #  docker:
+  #    - image: cimg/python:3.8
+  #  steps:
+  #    - checkout
+  #    - run: echo "Building app for " << parameters.partner >>
+  #    - run: echo appassemble${<< parameters.partner >>}
+  #test-parameters:
+  #  docker:
+  #    - image: cimg/python:3.8
+  #  steps:
+  #    - checkout
+  #    - run: echo << pipeline.parameters.test-results-path >>
+  #    - run: echo << pipeline.parameters.coverage_report_file >>
+  #    - run: echo  << pipeline.parameters.test_report_file >>
 
 
 workflows:
   sample:
     jobs:
-      - building-jobs:
-          name: "Building Number1"
-          partner: "Number1"
-          env: "one"
-      - building-jobs:
-          name: "Building Number2"
-          partner: "Number2"
-          env: "two"
+      #- building-jobs:
+      #    name: "Building Number1"
+      #    partner: "Number1"
+      #    env: "one"
+      #- building-jobs:
+      #    name: "Building Number2"
+      #    partner: "Number2"
+      #    env: "two"
       - test-parameters
