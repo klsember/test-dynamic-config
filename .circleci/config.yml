@@ -29,14 +29,14 @@ jobs:
   #    - checkout
   #    - run: echo "Building app for " << parameters.partner >>
   #    - run: echo appassemble${<< parameters.partner >>}
-  #test-parameters:
-  #  docker:
-  #    - image: cimg/python:3.8
-  #  steps:
-  #    - checkout
-  #    - run: echo << pipeline.parameters.test-results-path >>
-  #    - run: echo << pipeline.parameters.coverage_report_file >>
-  #    - run: echo  << pipeline.parameters.test_report_file >>
+  test-parameters:
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run: echo << pipeline.parameters.test-results-path >>
+      - run: echo << pipeline.parameters.coverage_report_file >>
+      - run: echo  << pipeline.parameters.test_report_file >>
 
 
 workflows:
