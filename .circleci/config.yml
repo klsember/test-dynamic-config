@@ -6,13 +6,13 @@ orbs:
 parameters:
   test-results-path:
     type: string
-    default: ./testresults
+    default: "./testresults"
   coverage_report_file:
     type: string
-    default: << pipeline.parameters.test-results-path >>/coverage.xml
+    default: "<< parameters.test-results-path >>/coverage.xml"
   test_report_file:
     type: string
-    default: << pipeline.parameters.test-results-path >>/pytest-report.xml
+    default: "<< parameters.test-results-path >>/pytest-report.xml"
 
 jobs:
   #building-jobs:
