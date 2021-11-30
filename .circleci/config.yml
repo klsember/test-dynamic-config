@@ -1,5 +1,13 @@
 version: 2.1
 
+parameters:
+  partner:
+    type: string
+    default: "Number1"
+  env:
+    type: string
+    default: "one"
+
 orbs:
   python: circleci/python@1.4
 
@@ -18,9 +26,23 @@ jobs:
           command: |
             mkdir test-results
             pytest --junitxml=test-results/junit.xml
+   building-jobs:
+     environment:
+       PARTNER_FLAVOR: << pipeline.parameters.partner >>
+     docker:
+       - image: cimg/python:3.8
+     steps:
+       - checkout
+       - run: echo "Building app for " << pipeline.parameters.partner >>
+       - run: echo appassemble${PARTNER_FLAVOR}
 
 
 workflows:
   sample:
     jobs:
-      - build-and-test
+      - building-jobs:
+          name: "Building Number1"
+          PARTNER_FLAVOR: "Number1"
+      - building-jobs:
+          name: "Building Number2"
+          PARTNER_FLAVOR: "Number2"
