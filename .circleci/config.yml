@@ -13,28 +13,15 @@ orbs:
 
 
 jobs:
-  build-and-test:
+  building-jobs:
+    environment:
+      PARTNER_FLAVOR: << pipeline.parameters.partner >>
     docker:
       - image: cimg/python:3.8
-    parallelism: 2
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-      - run:
-          name: Run tests
-          command: |
-            mkdir test-results
-            pytest --junitxml=test-results/junit.xml
-   building-jobs:
-     environment:
-       PARTNER_FLAVOR: << pipeline.parameters.partner >>
-     docker:
-       - image: cimg/python:3.8
-     steps:
-       - checkout
-       - run: echo "Building app for " << pipeline.parameters.partner >>
-       - run: echo appassemble${PARTNER_FLAVOR}
+      - run: echo "Building app for " << pipeline.parameters.partner >>
+      - run: echo appassemble${PARTNER_FLAVOR}
 
 
 workflows:
