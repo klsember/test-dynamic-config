@@ -41,7 +41,7 @@ jobs:
       - run: echo << pipeline.parameters.test-results-path >>
       - run: echo << pipeline.parameters.coverage_report_file >>
       - run: echo  << pipeline.parameters.test_report_file >>
-      - run: export test1_report_file=${<< pipeline.parameters.test-results-path >>}${<< pipeline.parameters.coverage_report_file >>}
+      - run: export test1_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
       - run: echo ${test1_report_file}
       - run: echo ${test2_report_file}
 
