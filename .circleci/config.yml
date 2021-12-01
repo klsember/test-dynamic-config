@@ -9,10 +9,10 @@ parameters:
     default: "./testresults"
   coverage_report_file:
     type: string
-    default: "${<< test-results-path >>}/coverage.xml"
+    default: "/coverage.xml"
   test_report_file:
     type: string
-    default: "${<< test-results-path >>}/pytest-report.xml"
+    default: "/pytest-report.xml"
 
 jobs:
   #building-jobs:
@@ -30,6 +30,10 @@ jobs:
   #    - run: echo "Building app for " << parameters.partner >>
   #    - run: echo appassemble${<< parameters.partner >>}
   test-parameters:
+    parameters:
+      test2_report_file:
+        type: string
+        default: ${<< pipeline.parameters.test-results-path >>}/pytest-report.xml
     docker:
       - image: cimg/python:3.8
     steps:
@@ -37,6 +41,9 @@ jobs:
       - run: echo << pipeline.parameters.test-results-path >>
       - run: echo << pipeline.parameters.coverage_report_file >>
       - run: echo  << pipeline.parameters.test_report_file >>
+      - run: export test1_report_file=${<< pipeline.parameters.test-results-path >>}${<< pipeline.parameters.coverage_report_file >>}
+      - run: echo ${test1_report_file}
+      - run: echo ${test2_report_file}
 
 
 workflows:
