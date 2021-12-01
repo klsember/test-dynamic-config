@@ -33,7 +33,7 @@ jobs:
     parameters:
       test2_report_file:
         type: string
-        default: ${<< pipeline.parameters.test-results-path >>}/pytest-report.xml
+        default: << pipeline.parameters.test-results-path >>/pytest-report.xml
     docker:
       - image: cimg/python:3.8
     steps:
@@ -42,7 +42,7 @@ jobs:
       - run: echo << pipeline.parameters.coverage_report_file >>
       - run: echo  << pipeline.parameters.test_report_file >>
       - run: export test1_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
-      - run: echo $test1_report_file
+      - run: echo new parameter $test1_report_file
       - run: echo ${<< parameters.test2_report_file >>}
 
 
