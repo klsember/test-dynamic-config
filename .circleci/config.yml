@@ -27,12 +27,12 @@ jobs:
       - run: echo << parameters.test2_report_file >>
   test-job-environment:
     environment:
-      test1_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
+      coverage2_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - run: echo $test1_report_file
+      - run: echo $coverage2_report_file
 
 workflows:
   sample:
