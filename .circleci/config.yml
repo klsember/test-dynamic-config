@@ -19,7 +19,7 @@ jobs:
     parameters:
       test2_report_file:
         type: string
-        default: << pipeline.parameters.test-results-path >>/pytest-report.xml
+        default: << pipeline.parameters.test-results-path >><< pipeline.parameters.test_report_file >>
     docker:
       - image: cimg/python:3.8
     steps:
