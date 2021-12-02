@@ -15,48 +15,27 @@ parameters:
     default: "/pytest-report.xml"
 
 jobs:
-  #building-jobs:
-  #  parameters:
-  #    partner:
-  #      type: string
-  #      default: "Number1"
-  #    env:
-  #      type: string
-  #      default: "one"
-  #  docker:
-  #    - image: cimg/python:3.8
-  #  steps:
-  #    - checkout
-  #    - run: echo "Building app for " << parameters.partner >>
-  #    - run: echo appassemble${<< parameters.partner >>}
-  test-parameters:
+  test-job-parameters:
     parameters:
       test2_report_file:
         type: string
         default: << pipeline.parameters.test-results-path >>/pytest-report.xml
+    docker:
+      - image: cimg/python:3.8
+    steps:
+      - checkout
+      - run: echo << parameters.test2_report_file >>
+  test-job-environment:
     environment:
       test1_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
     docker:
       - image: cimg/python:3.8
     steps:
       - checkout
-      - run: echo << pipeline.parameters.test-results-path >>
-      - run: echo << pipeline.parameters.coverage_report_file >>
-      - run: echo  << pipeline.parameters.test_report_file >>
-      - run: echo test1_report_file=<< pipeline.parameters.test-results-path >><< pipeline.parameters.coverage_report_file >>
       - run: echo $test1_report_file
-      - run: echo << parameters.test2_report_file >>
-
 
 workflows:
   sample:
     jobs:
-      #- building-jobs:
-      #    name: "Building Number1"
-      #    partner: "Number1"
-      #    env: "one"
-      #- building-jobs:
-      #    name: "Building Number2"
-      #    partner: "Number2"
-      #    env: "two"
-      - test-parameters
+      - test-job-parameters
+      - test-job-environment
